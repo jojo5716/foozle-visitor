@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/jojo5716/guest-visitor#readme",
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "querystring": "^0.2.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

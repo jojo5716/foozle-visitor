@@ -1,1 +1,3 @@
-console.log("Hello world");
+import Tracker from './Tracker';
+
+module.exports = Tracker;
