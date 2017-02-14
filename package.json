@@ -1,0 +1,19 @@
+{
+  "name": "guest-visitor",
+  "version": "1.0.0",
+  "description": "Lib to track information about guest visitors for web applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jojo5716/guest-visitor.git"
+  },
+  "author": "Jonathan Rodríguez Alejos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jojo5716/guest-visitor/issues"
+  },
+  "homepage": "https://github.com/jojo5716/guest-visitor#readme"
+}
