@@ -1,40 +1,33 @@
-import 'isomorphic-fetch';
-import querystring from 'querystring';
+import VisitorWatcher from './VisitorWatcher';
+import Log from './Log';
+import Config from './Config';
+import Transmitter from './Transmitter';
+import Enviroment from './Enviroment';
+
+import { bind } from './helpers/utils';
 
 
 export default class Tracker {
     constructor(window) {
-        this.url = 'http://127.0.0.1:8000/project/capture';
-        this.window = window;
+        const config = new Config();
+        const onReport = bind(this.report, this);
 
-        this.userLeaveListener();
+        this.log = new Log();
+        this.transmitter = new Transmitter(config);
+        this.enviroment = new Enviroment(window, this.log);
+        this.windowWatcher = new VisitorWatcher(window, this.log, config, onReport);
     }
 
-    userLeaveListener() {
-        if (this.window.addEventListener) {
-            this.window.addEventListener('beforeunload', (event) => {
-                this.report(event);
-                //event.returnValue = 'Testing...';
-            });
-        }
-    }
-
-    report(event) {
+    report() {
         const data = {
-            timeStamp: event.timeStamp
+            page: this.log.all('page'),
+            visitor: this.log.all('visitor'),
+            enviroment: this.log.all('enviroment')
         };
 
-        return fetch(this.url, {
-            credentials: 'include',
-            method: 'POST',
-            body: this.transformDataInQueryString(data),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        });
-    }
+        this.transmitter.sendTracker(data);
 
-    transformDataInQueryString(data) {
-        return querystring.stringify(data);
+        return true;
+
     }
 }
