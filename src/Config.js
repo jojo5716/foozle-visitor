@@ -5,7 +5,8 @@ export default class Config {
 
     initDefaults() {
         return {
-            trackerURL: 'http://127.0.0.1:8000/project/capture'
+            trackerURL: 'http://127.0.0.1:8000/project/capture',
+            version: '1.0.0'
         };
     }
 }

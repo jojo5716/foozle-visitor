@@ -7,9 +7,7 @@ module.exports  = {
     // Relative to context path
     entry: {
         index: ['./src/index.js'],
-        'index.min': ['./src/index.js'],
-        'indexWeb': ['./src/indexWeb.js'],
-        'indexWeb.min': ['./src/indexWeb.js']
+        'index.min': ['./src/index.js']
     },
 
     // Webpack output config
@@ -22,7 +20,7 @@ module.exports  = {
 
         // IMPORTANT!: This is the name of the global variable exported in browsers
         // Change it for the name you want your component to have as window.NAME
-        library: 'FoozleJS',
+        library: 'TrackerVisitor',
 
         libraryTarget: 'umd'
     },

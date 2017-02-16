@@ -1,5 +1,7 @@
 import Tracker from '../src/index';
+
 ((win) => {
-    const tracker = new Tracker(win);
+    win.tracker = new Tracker(win);
+    tracker.metaData.add('Country', 'Spain');
 })(window);
 
