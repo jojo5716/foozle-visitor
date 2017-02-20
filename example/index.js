@@ -1,7 +1,8 @@
 import Tracker from '../src/index';
 
 ((win) => {
-    win.tracker = new Tracker(win);
+    const project = win.foozleTracker;
+    win.tracker = new Tracker(win, project);
     tracker.metaData.add('Country', 'Spain');
 })(window);
 

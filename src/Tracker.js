@@ -9,14 +9,14 @@ import { bind } from './helpers/utils';
 
 
 export default class Tracker {
-    constructor(window) {
+    constructor(window, project) {
         const config = new Config();
         const onReport = bind(this.report, this);
 
         this.log = new Log();
         this.metaData = new MetaData();
 
-        this.transmitter = new Transmitter(config);
+        this.transmitter = new Transmitter(project, config);
         this.enviroment = new Enviroment(window, this.log);
         this.windowWatcher = new VisitorWatcher(window, this.log, config, onReport);
     }
