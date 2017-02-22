@@ -9,6 +9,7 @@ export default class VisitorWatcher {
         this.window = window;
         this.onReport = onReport;
         this.config = config;
+
         this.initialize();
     }
 
@@ -22,7 +23,7 @@ export default class VisitorWatcher {
 
     onWindowLeave(event) {
         this.log.add('page', {
-            timeStamp: event.timeStamp
+            leaveAt: event.timeStamp
         });
 
         this.onReport();

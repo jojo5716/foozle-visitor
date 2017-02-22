@@ -6,7 +6,7 @@
 </head>
 <body>
     <p>Tracking visitor info.</p>
-
+    <button onclick="simulateAddRoom();">Add room to cart</button>
     <a href="./second_view.html"> Go to another view</a>
     <script type="text/javascript">
         window.foozleTracker = {
@@ -16,6 +16,21 @@
     <script src="__dist__/index.js" ></script>
     <script type="text/javascript">
        window.tracker.metaData.add('Ip', '127.0.0.1');
+    </script>
+
+    <script type="text/javascript">
+       function simulateAddRoom() {
+           console.log('Adding rooms');
+
+           window.tracker.actions.add('add room', {
+               roomName: 'Double room',
+               price: '200',
+               currencyCode: 'EUR',
+               rateName: 'Standar rate',
+               boardName: 'Accommodation only',
+               occupancy: '2-0-0'
+           });
+       }
     </script>
 </body>
 </html>

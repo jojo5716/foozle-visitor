@@ -1,14 +1,18 @@
-import { v4 } from 'uuid';
+import { v1, v4 } from 'uuid';
 
 export default class Session {
-    constructor(window) {
+    constructor(window, sessionName = 'foozleVisitor') {
         this.window = window;
-        this.sessionName = 'foozleVisitor';
+        this.sessionName = sessionName;
         this.defaultDaysToExpired = 9999;
     }
 
     generateSessionHash() {
         return v4();
+    }
+
+    generateSessionHashV1() {
+        return v1();
     }
 
     chooseStorager() {
@@ -25,12 +29,33 @@ export default class Session {
         return typeStorager;
     }
 
-    get_or_create() {
+    getTempSession(key) {
+        if (this.sessionStorageEnabled()) {
+            return this.window.sessionStorage.getItem(key);
+        }
+    }
+
+    setTempSession(key, value) {
+        if (this.sessionStorageEnabled()) {
+            const hashSession = `${this.generateSessionHashV1()}-${value}`;
+            this.window.sessionStorage.setItem(key, hashSession);
+            return hashSession;
+        }
+    }
+
+    removeTempSession(key) {
+        if (this.sessionStorageEnabled()) {
+            this.window.sessionStorage.removeItem(key);
+        }
+    }
+
+    get_or_create(value) {
         const typeStorager = this.chooseStorager();
+
         if (typeStorager === 'localStorage') {
             let valueStorage = this.window.localStorage.getItem(this.sessionName);
             if (!valueStorage) {
-                valueStorage = this.generateSessionHash();
+                valueStorage = value || this.generateSessionHash();
                 this.window.localStorage.setItem(this.sessionName, valueStorage);
             }
             return valueStorage;
@@ -38,7 +63,7 @@ export default class Session {
             let cookieValue = this.readCookie();
 
             if (!cookieValue) {
-                cookieValue = this.generateSessionHash();
+                cookieValue = value || this.generateSessionHash();
                 this.setCookie(cookieValue);
             }
             return cookieValue;

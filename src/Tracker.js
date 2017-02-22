@@ -4,34 +4,64 @@ import Config from './Config';
 import Transmitter from './Transmitter';
 import Enviroment from './Enviroment';
 import MetaData from './MetaData';
+import Session from './Session';
+import Page from './Page';
 
 import { bind } from './helpers/utils';
 
 
 export default class Tracker {
     constructor(window, project) {
+        this.loadedOn = new Date().getTime();
+
         const config = new Config();
         const onReport = bind(this.report, this);
 
+        // Session token
+        this.session = new Session(window);
+
         this.log = new Log();
         this.metaData = new MetaData();
+        this.actions = new MetaData();
 
         this.transmitter = new Transmitter(project, config);
+
+        // Recovery data
         this.enviroment = new Enviroment(window, this.log);
+        this.page = new Page(window, this.log);
+
         this.windowWatcher = new VisitorWatcher(window, this.log, config, onReport);
     }
 
+    sessionTemp() {
+        const valueSession =  new Date().getTime();
+        let valueSessionTemp = this.session.getTempSession('lastVisit');
+
+        if (!valueSessionTemp || valueSessionTemp === '') {
+            valueSessionTemp = this.session.setTempSession('lastVisit', valueSession);
+        }
+
+        return valueSessionTemp;
+    }
+
     report() {
+        const loadedOn = this.loadedOn;
+        const sessionTemp = this.sessionTemp();
+
         const data = {
+            loadedOn,
+            sessionTemp,
             page: this.log.all('page'),
-            visitor: this.log.all('visitor'),
             enviroment: this.log.all('enviroment'),
-            metaData: this.metaData.report()
+            metaData: this.metaData.report(),
+            actions: this.actions.report()
         };
 
         try {
             this.transmitter.sendTracker(data);
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
 
         return true;
 
