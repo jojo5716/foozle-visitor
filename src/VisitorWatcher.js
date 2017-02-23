@@ -23,7 +23,5 @@ export default class VisitorWatcher {
 
     onWindowLeave(event) {
         this.onReport(event.timeStamp);
-
-        event.returnValue = 'Testing...';
     }
 }
