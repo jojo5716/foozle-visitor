@@ -1,11 +1,7 @@
-import Session from './Session';
-
-
 export default class Page {
     constructor(window, log) {
         this.window = window;
         this.log = log;
-        this.session = new Session(window, 'lastVisit');
         this.initialize();
     }
 

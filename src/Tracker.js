@@ -23,6 +23,7 @@ export default class Tracker {
         this.log = new Log();
         this.metaData = new MetaData();
         this.actions = new MetaData();
+        this.userInfo = new MetaData();
 
         this.transmitter = new Transmitter(project, config);
 
@@ -44,17 +45,21 @@ export default class Tracker {
         return valueSessionTemp;
     }
 
-    report() {
+    report(timeStamp) {
         const loadedOn = this.loadedOn;
         const sessionTemp = this.sessionTemp();
+        const session = this.session.get_or_create();
 
         const data = {
             loadedOn,
             sessionTemp,
+            session,
             page: this.log.all('page'),
             enviroment: this.log.all('enviroment'),
+            leaveAt: timeStamp,
             metaData: this.metaData.report(),
-            actions: this.actions.report()
+            actions: this.actions.report(),
+            userInfo: this.userInfo.report()
         };
 
         try {

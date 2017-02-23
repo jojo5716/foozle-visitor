@@ -22,11 +22,7 @@ export default class VisitorWatcher {
     }
 
     onWindowLeave(event) {
-        this.log.add('page', {
-            leaveAt: event.timeStamp
-        });
-
-        this.onReport();
+        this.onReport(event.timeStamp);
 
         event.returnValue = 'Testing...';
     }
