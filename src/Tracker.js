@@ -24,6 +24,7 @@ export default class Tracker {
         this.metaData = new MetaData();
         this.actions = new MetaData();
         this.userInfo = new MetaData();
+        this.booking = new MetaData();
 
         this.transmitter = new Transmitter(project, config);
 
@@ -59,7 +60,8 @@ export default class Tracker {
             leaveAt: timeStamp,
             metaData: this.metaData.report(),
             actions: this.actions.report(),
-            userInfo: this.userInfo.report()
+            userInfo: this.userInfo.report(),
+            booking: this.booking.report()
         };
 
         try {
