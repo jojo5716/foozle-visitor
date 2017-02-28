@@ -5,7 +5,7 @@ export default class Config {
 
     initDefaults() {
         return {
-            trackerURL: 'http://qa.roiback.com:8000/data',
+            trackerURL: 'http://qa.roiback.com:8000/user',
             version: '1.0.0'
         };
     }
