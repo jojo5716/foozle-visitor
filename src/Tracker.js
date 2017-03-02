@@ -26,7 +26,8 @@ export default class Tracker {
         this.userInfo = new MetaData();
         this.booking = new MetaData();
 
-        this.transmitter = new Transmitter(project, config);
+        const url = window.foozleTracker.url;
+        this.transmitter = new Transmitter(project, config, url);
 
         // Recovery data
         this.enviroment = new Enviroment(window, this.log);

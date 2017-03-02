@@ -3,9 +3,9 @@ import querystring from 'querystring';
 
 
 export default class Transmitter {
-    constructor(project, config) {
-        this.config = config;
+    constructor(project, config, url) {
         this.project = project;
+        this.url = url || config.defaults.trackerURL;
 
     }
 
@@ -15,7 +15,7 @@ export default class Transmitter {
             project: this.project.token
         };
 
-        return fetch(this.config.defaults.trackerURL, {
+        return fetch(this.url, {
             credentials: 'include',
             method: 'POST',
             body: JSON.stringify(info),
