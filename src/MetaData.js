@@ -3,25 +3,22 @@ import { serialize } from './helpers/utils';
 
 export default class MetaData {
     constructor() {
-        this.metaData = {};
+        this.metaData = [];
     }
 
     add(key, value) {
-        this.metaData[key] = value;
-    }
-
-    remove(key) {
-        delete this.metaData[key];
+        this.metaData.push({ key, value });
     }
 
     report() {
         const index = [];
-        let i;
 
-        for (i in this.metaData) {
+        for (let i = 0; i < this.metaData.length; i += 1) {
+            const obj = this.metaData[i];
+            console.log(obj)
             index.push({
-                key: i,
-                value: serialize(this.metaData[i])
+                key: obj.key,
+                value: obj.value
             });
         }
         return index;
