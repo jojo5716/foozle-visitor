@@ -15,7 +15,6 @@ export default class MetaData {
 
         for (let i = 0; i < this.metaData.length; i += 1) {
             const obj = this.metaData[i];
-            console.log(obj)
             index.push({
                 key: obj.key,
                 value: obj.value
