@@ -1,3 +1,9 @@
+#### 1.1.6 (2017-3-8)
+
+##### Bug Fixes
+
+* **catch:** Remove catch from fetch ([0892002c](https://github.com/jojo5716/guest-visitor/commit/0892002c1f5e9cec48f0720b4b598d02d4915c2b))
+
 #### 1.1.5 (2017-3-8)
 
 #### 1.1.4 (2017-3-8)
