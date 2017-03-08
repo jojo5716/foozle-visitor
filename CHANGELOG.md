@@ -1,3 +1,9 @@
+#### 1.1.3 (2017-3-8)
+
+##### Bug Fixes
+
+* **actions:** Clean actions after send to server ([19e952db](https://github.com/jojo5716/guest-visitor/commit/19e952dbf4916e55d9dd76645c9aaab69870a492))
+
 #### 1.1.2 (2017-3-8)
 
 #### 1.1.1 (2017-3-8)
