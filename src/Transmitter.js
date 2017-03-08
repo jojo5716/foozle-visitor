@@ -9,19 +9,21 @@ export default class Transmitter {
 
     }
 
-    sendTracker(data) {
+    sendTracker(data, url) {
         const info = {
             data,
             project: this.project.token
         };
 
-        return fetch(this.url, {
+        return fetch(url, {
             credentials: 'include',
             method: 'POST',
             body: JSON.stringify(info),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).catch(err => {
+            console.log(err);
         });
     }
 }

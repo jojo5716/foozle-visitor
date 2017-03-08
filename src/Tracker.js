@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 import VisitorWatcher from './VisitorWatcher';
 import Log from './Log';
 import Config from './Config';
@@ -8,17 +10,20 @@ import Session from './Session';
 import Page from './Page';
 
 import { bind } from './helpers/utils';
-
+import { trackError } from './helpers/errors';
 
 export default class Tracker {
     constructor(window, project) {
-        this.loadedOn = new Date().getTime();
+        this.window = window;
 
+        this.loadedOn = new Date().getTime();
         const config = new Config();
-        const onReport = bind(this.report, this);
+        this.sendTrack = bind(this.track, this);
+        this.sendActions = bind(this.trackActions, this);
 
         // Session token
         this.session = new Session(window);
+        this.pageToken = v4();
 
         this.log = new Log();
         this.metaData = new MetaData();
@@ -26,14 +31,19 @@ export default class Tracker {
         this.userInfo = new MetaData();
         this.booking = new MetaData();
 
-        const url = window.foozleTracker.url;
-        this.transmitter = new Transmitter(project, config, url);
+        this.pageTracker = window.foozleTracker.url || config.defaults.trackerURL;
+        this.actionTracker = window.foozleTracker.actionsURL || config.defaults.trackerActionsURL;
+        this.errorToken = window.foozleTracker.errorToken;
+
+        this.transmitter = new Transmitter(project, config);
 
         // Recovery data
         this.enviroment = new Enviroment(window, this.log);
         this.page = new Page(window, this.log);
 
-        this.windowWatcher = new VisitorWatcher(window, this.log, config, onReport);
+        if (!!project.event) {
+            this.windowWatcher = new VisitorWatcher(window, this.sendTrack, project.event);
+        }
     }
 
     sessionTemp() {
@@ -47,7 +57,7 @@ export default class Tracker {
         return valueSessionTemp;
     }
 
-    report(timeStamp) {
+    track(timeStamp) {
         const loadedOn = this.loadedOn;
         const sessionTemp = this.sessionTemp();
         const session = this.session.get_or_create();
@@ -56,22 +66,41 @@ export default class Tracker {
             loadedOn,
             sessionTemp,
             session,
+            pageToken: this.pageToken,
             page: this.log.all('page'),
             enviroment: this.log.all('enviroment'),
-            leaveAt: timeStamp,
+            eventTime: timeStamp,
             metaData: this.metaData.report(),
             actions: this.actions.report(),
             userInfo: this.userInfo.report(),
             booking: this.booking.report()
         };
 
-        try {
-            this.transmitter.sendTracker(data);
-        } catch (error) {
-            console.log(error);
-        }
+        this.send(data, this.pageTracker);
 
         return true;
 
     }
+
+    trackActions() {
+        const data = {
+            pageToken: this.pageToken,
+            sessionTemp: this.sessionTemp(),
+            session: this.session.get_or_create(),
+            actions: this.actions.report()
+        };
+
+        this.send(data, this.actionTracker);
+
+        return true;
+    }
+
+    send(data, url) {
+        try {
+            this.transmitter.sendTracker(data, url);
+        } catch (error) {
+            trackError(this.errorToken, this.window, error);
+        }
+    }
+
 }

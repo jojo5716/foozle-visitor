@@ -4,12 +4,10 @@ import { bind } from './helpers/utils';
 
 
 export default class VisitorWatcher {
-    constructor(window, log, config, onReport) {
-        this.log = log;
+    constructor(window, onReport, event = "beforeunload") {
         this.window = window;
         this.onReport = onReport;
-        this.config = config;
-
+        this.event = event;
         this.initialize();
     }
 
@@ -17,7 +15,9 @@ export default class VisitorWatcher {
         const onWindowLeave = bind(this.onWindowLeave, this);
 
         if (this.window.addEventListener) {
-            this.window.addEventListener('beforeunload', onWindowLeave, true);
+            this.window.addEventListener(this.event, onWindowLeave, true);
+        } else if (this.window.attachEvent) {
+            this.window.attachEvent(this.event, onWindowLeave);
         }
     }
 
