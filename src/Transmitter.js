@@ -22,8 +22,6 @@ export default class Transmitter {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        }).catch(err => {
-            console.log(err);
         });
     }
 }
