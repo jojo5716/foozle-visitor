@@ -79,7 +79,6 @@ export default class Tracker {
         this.send(data, this.pageTracker);
 
         return true;
-
     }
 
     trackActions() {
@@ -91,6 +90,7 @@ export default class Tracker {
         };
 
         this.send(data, this.actionTracker);
+        this.actions.clean();
 
         return true;
     }

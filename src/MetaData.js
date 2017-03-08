@@ -10,6 +10,10 @@ export default class MetaData {
         this.metaData.push({ key, value });
     }
 
+    clean() {
+        this.metaData = [];
+    }
+
     report() {
         const index = [];
 
@@ -17,7 +21,7 @@ export default class MetaData {
             const obj = this.metaData[i];
             index.push({
                 key: obj.key,
-                value: obj.value
+                value: serialize(obj.value)
             });
         }
         return index;
