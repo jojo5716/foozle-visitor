@@ -48,10 +48,14 @@ export default class Tracker {
 
     sessionTemp() {
         const valueSession =  new Date().getTime();
-        let valueSessionTemp = this.session.getTempSession('lastVisit');
+        try{
+          let valueSessionTemp = this.session.getTempSession('lastVisit');
 
-        if (!valueSessionTemp || valueSessionTemp === '') {
-            valueSessionTemp = this.session.setTempSession('lastVisit', valueSession);
+          if (!valueSessionTemp || valueSessionTemp === '') {
+              valueSessionTemp = this.session.setTempSession('lastVisit', valueSession);
+          }
+        } catch(err) {
+          console.error(err);
         }
 
         return valueSessionTemp;
@@ -59,8 +63,15 @@ export default class Tracker {
 
     track(timeStamp) {
         const loadedOn = this.loadedOn;
-        const sessionTemp = this.sessionTemp();
-        const session = this.session.get_or_create();
+        try{
+          const sessionTemp = this.sessionTemp();
+          const session = this.session.get_or_create();
+        } catch(err) {
+          console.error(err);
+          const sessionTemp = new Date().getTime();
+          const session = new Date().getTime();
+        }
+
 
         const data = {
             loadedOn,

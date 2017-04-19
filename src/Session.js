@@ -31,14 +31,22 @@ export default class Session {
 
     getTempSession(key) {
         if (this.sessionStorageEnabled()) {
+          try{
             return this.window.sessionStorage.getItem(key);
+          } catch(err) {
+            console.error(err);
+          }
         }
     }
 
     setTempSession(key, value) {
         if (this.sessionStorageEnabled()) {
             const hashSession = `${this.generateSessionHashV1()}-${value}`;
-            this.window.sessionStorage.setItem(key, hashSession);
+            try{
+              this.window.sessionStorage.setItem(key, hashSession);
+            } catch(err) {
+              console.error(err);
+            }
             return hashSession;
         }
     }
