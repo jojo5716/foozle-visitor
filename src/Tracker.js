@@ -47,9 +47,12 @@ export default class Tracker {
     }
 
     sessionTemp() {
-        const valueSession =  new Date().getTime();
+        const currentDate = new Date().getTime();
+        const valueSession =  currentDate;
+        let valueSessionTemp = currentDate;
+        
         try{
-          let valueSessionTemp = this.session.getTempSession('lastVisit');
+          valueSessionTemp = this.session.getTempSession('lastVisit');
 
           if (!valueSessionTemp || valueSessionTemp === '') {
               valueSessionTemp = this.session.setTempSession('lastVisit', valueSession);
