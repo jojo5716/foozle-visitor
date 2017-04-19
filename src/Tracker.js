@@ -63,13 +63,13 @@ export default class Tracker {
 
     track(timeStamp) {
         const loadedOn = this.loadedOn;
+        const sessionTemp = this.sessionTemp();
+        let session = new Date().getTime();
+
         try{
-          const sessionTemp = this.sessionTemp();
-          const session = this.session.get_or_create();
+          session = this.session.get_or_create();
         } catch(err) {
           console.error(err);
-          const sessionTemp = new Date().getTime();
-          const session = new Date().getTime();
         }
 
 
