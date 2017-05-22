@@ -1,6 +1,6 @@
 {
   "name": "foozle-visitor",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Lib to track information about guest visitors for web applications",
   "main": "./src/index.js",
   "scripts": {
