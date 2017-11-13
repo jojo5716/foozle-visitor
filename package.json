@@ -1,7 +1,7 @@
 {
   "name": "foozle-visitor",
   "version": "1.1.10",
-  "description": "Lib to track information about guest visitors for web applications",
+  "description": "Lib to track information about all visitors for any web",
   "main": "./src/index.js",
   "scripts": {
     "start": "webpack-dashboard -- webpack-dev-server --config webpack.dev.config.js --port 8888",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jojo5716/guest-visitor.git"
+    "url": "git+https://github.com/jojo5716/foozle-visitor"
   },
   "author": "Jonathan Rodríguez Alejos",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jojo5716/guest-visitor/issues"
+    "url": "https://github.com/jojo5716/foozle-visitor/issues"
   },
-  "homepage": "https://github.com/jojo5716/guest-visitor#readme",
+  "homepage": "https://github.com/jojo5716/foozle-visitor#readme",
   "dependencies": {
     "es6-promise": "^4.1.0",
     "foozle-tracker": "^1.0.19",
