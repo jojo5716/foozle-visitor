@@ -1,3 +1,9 @@
+#### 1.1.11 (2017-11-13)
+
+##### Other Changes
+
+* **package:** Updating package.json ([657ded3e](https://github.com/jojo5716/foozle-visitor/commit/657ded3ecfc7a10e6d50dad2606835a2a547ba1d))
+
 #### 1.1.10 (2017-5-22)
 
 #### 1.1.9 (2017-4-19)
