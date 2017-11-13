@@ -13,13 +13,14 @@ import { bind } from './helpers/utils';
 import { trackError } from './helpers/errors';
 
 export default class Tracker {
-    constructor(window, project) {
+    constructor(window, initialConfig) {
         this.window = window;
 
         this.loadedOn = new Date().getTime();
         const config = new Config();
         this.sendTrack = bind(this.track, this);
         this.sendActions = bind(this.trackActions, this);
+        this.sendScrollActions = bind(this.trackScrollActions, this);
 
         // Session token
         this.session = new Session(window);
@@ -28,37 +29,40 @@ export default class Tracker {
         this.log = new Log();
         this.metaData = new MetaData();
         this.actions = new MetaData();
+        this.scrollAction = new MetaData();
         this.userInfo = new MetaData();
         this.booking = new MetaData();
 
-        this.pageTracker = window.foozleTracker.url || config.defaults.trackerURL;
-        this.actionTracker = window.foozleTracker.actionsURL || config.defaults.trackerActionsURL;
-        this.errorToken = window.foozleTracker.errorToken;
+        // Trackign errors with foozlejs
+        this.pageTracker = initialConfig.url || config.defaults.trackerURL;
+        this.actionTracker = initialConfig.actionsURL || config.defaults.trackerActionsURL;
+        this.errorToken = initialConfig.errorToken;
 
-        this.transmitter = new Transmitter(project, config);
+        this.transmitter = new Transmitter(initialConfig, config);
 
         // Recovery data
         this.enviroment = new Enviroment(window, this.log);
         this.page = new Page(window, this.log);
 
-        if (!!project.event) {
-            this.windowWatcher = new VisitorWatcher(window, this.sendTrack, project.event);
+        // If we want to track any event
+        if (!!initialConfig.event) {
+            this.windowWatcher = new VisitorWatcher(window, this.sendTrack, initialConfig.event);
         }
     }
 
     sessionTemp() {
         const currentDate = new Date().getTime();
-        const valueSession =  currentDate;
+        const valueSession = currentDate;
         let valueSessionTemp = currentDate;
-        
-        try{
-          valueSessionTemp = this.session.getTempSession('lastVisit');
 
-          if (!valueSessionTemp || valueSessionTemp === '') {
-              valueSessionTemp = this.session.setTempSession('lastVisit', valueSession);
-          }
-        } catch(err) {
-          console.error(err);
+        try {
+            valueSessionTemp = this.session.getTempSession('lastVisit');
+
+            if (!valueSessionTemp || valueSessionTemp === '') {
+                valueSessionTemp = this.session.setTempSession('lastVisit', valueSession);
+            }
+        } catch (err) {
+            console.error(err);
         }
 
         return valueSessionTemp;
@@ -69,10 +73,10 @@ export default class Tracker {
         const sessionTemp = this.sessionTemp();
         let session = new Date().getTime();
 
-        try{
-          session = this.session.get_or_create();
-        } catch(err) {
-          console.error(err);
+        try {
+            session = this.session.get_or_create();
+        } catch (err) {
+            console.error(err);
         }
 
 
@@ -83,7 +87,7 @@ export default class Tracker {
             pageToken: this.pageToken,
             page: this.log.all('page'),
             enviroment: this.log.all('enviroment'),
-            eventTime: timeStamp,
+            eventTime: timeStamp || new Date().getTime(),
             metaData: this.metaData.report(),
             actions: this.actions.report(),
             userInfo: this.userInfo.report(),
@@ -96,15 +100,28 @@ export default class Tracker {
     }
 
     trackActions() {
+        const actions = this.actions.report();
+        this.sendTrackAction('actions', actions);
+        this.actions.clean();
+    }
+
+    trackScrollActions() {
+        const scrollActions = this.scrollAction.report();
+
+        this.sendTrackAction('scrollActions', scrollActions);
+        this.scrollAction.clean();
+    }
+
+    sendTrackAction(actionKeyName, actionReport) {
         const data = {
             pageToken: this.pageToken,
             sessionTemp: this.sessionTemp(),
-            session: this.session.get_or_create(),
-            actions: this.actions.report()
+            session: this.session.get_or_create()
         };
 
+        data[actionKeyName] = actionReport;
+
         this.send(data, this.actionTracker);
-        this.actions.clean();
 
         return true;
     }

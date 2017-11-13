@@ -6,15 +6,15 @@ import querystring from 'querystring';
 
 export default class Transmitter {
 
-    constructor(project, config, url) {
-        this.project = project;
+    constructor(initialConfig, config, url) {
+        this.initialConfig = initialConfig;
         this.url = url || config.defaults.trackerURL;
     }
 
     sendTracker(data, url) {
         const info = {
             data,
-            project: this.project.token
+            project: this.initialConfig.token
         };
 
         return fetch(url, {

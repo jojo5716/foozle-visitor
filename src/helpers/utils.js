@@ -14,7 +14,7 @@ function serialize(obj) {
     }
 
     if (obj === '') {
-        return 'Empty String';
+        return 'Not set';
     }
 
     let jsonObj;

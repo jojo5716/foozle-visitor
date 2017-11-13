@@ -12,16 +12,16 @@ export default class VisitorWatcher {
     }
 
     initialize() {
-        const onWindowLeave = bind(this.onWindowLeave, this);
+        const sendEvent = bind(this.sendEvent, this);
 
         if (this.window.addEventListener) {
-            this.window.addEventListener(this.event, onWindowLeave, true);
+            this.window.addEventListener(this.event, sendEvent, true);
         } else if (this.window.attachEvent) {
-            this.window.attachEvent(this.event, onWindowLeave);
+            this.window.attachEvent(this.event, sendEvent);
         }
     }
 
-    onWindowLeave(event) {
+    sendEvent(event) {
         this.onReport(event.timeStamp);
     }
 }
