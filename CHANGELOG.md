@@ -1,3 +1,9 @@
+#### 1.2.3 (2017-11-15)
+
+##### Chores
+
+* **tracker:** Adding page data to actions event and fix fetch headers ([73ef1444](https://github.com/jojo5716/foozle-visitor/commit/73ef1444d93d47e3cdfbcd0d5dca9ec1db7f6024))
+
 #### 1.2.2 (2017-11-13)
 
 #### 1.2.1 (2017-11-13)
