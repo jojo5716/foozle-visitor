@@ -22,7 +22,8 @@ export default class Transmitter {
             method: 'POST',
             body: JSON.stringify(info),
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         });
     }

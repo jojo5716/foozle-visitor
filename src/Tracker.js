@@ -116,7 +116,8 @@ export default class Tracker {
         const data = {
             pageToken: this.pageToken,
             sessionTemp: this.sessionTemp(),
-            session: this.session.get_or_create()
+            session: this.session.get_or_create(),
+            page: this.log.all('page')
         };
 
         data[actionKeyName] = actionReport;
