@@ -32,6 +32,7 @@ export default class Tracker {
         this.scrollAction = new MetaData();
         this.userInfo = new MetaData();
         this.booking = new MetaData();
+        this.availability = new MetaData();
 
         // Trackign errors with foozlejs
         this.pageTracker = initialConfig.url || config.defaults.trackerURL;
@@ -87,8 +88,9 @@ export default class Tracker {
             pageToken: this.pageToken,
             page: this.log.all('page'),
             enviroment: this.log.all('enviroment'),
-            eventTime: timeStamp || new Date().getTime(),
+            eventTime: timeStamp || loadedOn,
             metaData: this.metaData.report(),
+            availability: this.availability.report(),
             actions: this.actions.report(),
             userInfo: this.userInfo.report(),
             booking: this.booking.report()
