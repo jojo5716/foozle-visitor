@@ -1,9 +1,9 @@
 export default class Log {
     constructor() {
         this.visitorEvents = {
-            page: [],
-            visitor: [],
-            enviroment: []
+            page: {},
+            visitor: {},
+            enviroment: {}
         };
     }
 
@@ -12,6 +12,6 @@ export default class Log {
     }
 
     add(category, obj) {
-        this.visitorEvents[category].push(obj);
+        this.visitorEvents[category] = obj;
     }
 }

@@ -10,11 +10,14 @@ import Session from './Session';
 import Page from './Page';
 
 import { bind } from './helpers/utils';
-import { trackError } from './helpers/errors';
+import { initializeErrorTracker, trackError } from './helpers/errors';
 
 export default class Tracker {
     constructor(window, initialConfig) {
         this.window = window;
+
+        // We initialize at first the foozle error tracker
+        initializeErrorTracker(initialConfig.errorToken, initialConfig.foozleConfig, window);
 
         this.loadedOn = new Date().getTime();
         const config = new Config();
@@ -37,7 +40,6 @@ export default class Tracker {
         // Trackign errors with foozlejs
         this.pageTracker = initialConfig.url || config.defaults.trackerURL;
         this.actionTracker = initialConfig.actionsURL || config.defaults.trackerActionsURL;
-        this.errorToken = initialConfig.errorToken;
 
         this.transmitter = new Transmitter(initialConfig, config);
 
@@ -133,7 +135,7 @@ export default class Tracker {
         try {
             this.transmitter.sendTracker(data, url);
         } catch (error) {
-            trackError(this.errorToken, this.window, error);
+            trackError(error);
         }
     }
 
