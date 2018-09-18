@@ -1,7 +1,12 @@
 import FoozleJS from 'foozle-tracker';
 
-let foozleInstance = null;
+module.exports = {
+    initializeErrorTracker,
+    addMetaDatas,
+    trackError
+};
 
+let foozleInstance = null;
 
 function initializeErrorTracker(token, config, window) {
     if (token) {
@@ -37,8 +42,3 @@ function trackError(error) {
         }
     }
 }
-
-module.exports = {
-    initializeErrorTracker,
-    trackError
-};
